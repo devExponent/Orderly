@@ -22,6 +22,10 @@ const Cart = () => {
           </div>
         </div>
       ))}
+      <div className="flex flex-row justify-end items-center gap-3 my-5">
+        <button>Close</button>
+        <button className="bg-amber-300 p-2 rounded-lg">Go to Checkout</button>
+      </div>
     </div>
   );
 };
