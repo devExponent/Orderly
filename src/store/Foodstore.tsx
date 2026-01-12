@@ -15,21 +15,29 @@ export type Meal = {
 export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   const [foodStore, setFoodStore] = useState<Meal[]>([]);
   const [order, setOrder] = useState<Meal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadMeals = async () => {
+      setIsLoading(true);
       try {
         const res = await fetch("http://localhost:3000/meals");
         const data = await res.json();
-        console.log(data);
+        const mealsWithNumbers = data.map((meal: Meal) => ({
+          ...meal,
+          price: parseFloat(meal.price),
+        }));
+
+        console.log(mealsWithNumbers);
         if (!res.ok) {
-          console.log("error");
           return;
         }
-        setFoodStore(data);
+
+        setFoodStore(mealsWithNumbers);
       } catch (err) {
         console.log(err);
       }
+      setIsLoading(false);
     };
     loadMeals();
   }, []);
@@ -43,14 +51,13 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       if (!mealToAdd) return orders;
       return [...orders, mealToAdd];
     });
-    // console.log(order);
-    console.log(order.length);
   };
 
   const contextValue = {
     foodStore,
     order,
     AddMeal,
+    isLoading,
   };
 
   return <FoodContext value={contextValue}>{children}</FoodContext>;
