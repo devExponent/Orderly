@@ -6,7 +6,6 @@ function App() {
     <>
       <Header />
       <FoodstoreProvider>
-        <p>Hello</p>
         <Meal />
       </FoodstoreProvider>
     </>
