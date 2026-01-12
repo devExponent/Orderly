@@ -14,6 +14,7 @@ export type Meal = {
 
 export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   const [foodStore, setFoodStore] = useState<Meal[]>([]);
+  const [order, setOrder] = useState<Meal[]>([]);
 
   useEffect(() => {
     const loadMeals = async () => {
@@ -33,8 +34,22 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     loadMeals();
   }, []);
 
+  const AddMeal = (id: string) => {
+    setOrder((orders) => {
+      if (orders.some((order) => order.id === id)) {
+        return orders;
+      }
+      const mealToAdd = foodStore.find((meal) => meal.id === id);
+      if (!mealToAdd) return orders;
+      return [...orders, mealToAdd];
+    });
+    console.log(order);
+  };
+
   const contextValue = {
     foodStore,
+    order,
+    AddMeal,
   };
 
   return <FoodContext value={contextValue}>{children}</FoodContext>;
