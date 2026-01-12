@@ -1,9 +1,10 @@
 // import { useContext } from "react"
-import { use } from "react";
+import { useContext } from "react";
 import { FoodContext } from "../store/foodContext";
 
 const Meal = () => {
-  const { foodStore } = use(FoodContext);
+  const { foodStore } = useContext(FoodContext);
+  const { AddMeal } = useContext(FoodContext);
   return (
     <section className="w-10/12 mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -21,7 +22,10 @@ const Meal = () => {
               <p className="text-2xl font-bold rounded-3xl">{meal.name}</p>
               <p>{meal.description}</p>
               <p>${meal.price}</p>
-              <button className="bg-amber-300 p-3 rounded-lg my-2">
+              <button
+                className="bg-amber-300 p-3 rounded-lg my-2"
+                onClick={() => AddMeal(meal.id)}
+              >
                 Add to cart
               </button>
             </div>

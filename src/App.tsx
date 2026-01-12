@@ -4,8 +4,8 @@ import Header from "./store/Header";
 function App() {
   return (
     <>
-      <Header />
       <FoodstoreProvider>
+        <Header />
         <Meal />
       </FoodstoreProvider>
     </>

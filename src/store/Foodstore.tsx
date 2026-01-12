@@ -43,7 +43,8 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       if (!mealToAdd) return orders;
       return [...orders, mealToAdd];
     });
-    console.log(order);
+    // console.log(order);
+    console.log(order.length);
   };
 
   const contextValue = {
