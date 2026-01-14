@@ -8,7 +8,10 @@ const Cart = () => {
   return (
     <div>
       {order.map((orders) => (
-        <div className="flex items-center justify-between py-2 border-b last:border-b-0">
+        <div
+          className="flex items-center justify-between py-2 border-b last:border-b-0"
+          key={orders.id}
+        >
           <div className="flex flex-col">
             <p className="font-medium flex gap-3">
               {orders.name}
@@ -23,13 +26,14 @@ const Cart = () => {
             >
               -
             </button>
-            <span className="w-4 text-center">{0}</span>
+            <span className="w-4 text-center">{mealQuantity[orders.id]}</span>
             <button
               className="w-6 h-6 flex justify-center items-center bg-gray-200 rounded-full hover:bg-gray-300"
               onClick={() => IncreaseQty(orders.id)}
             >
               +
             </button>
+            <p>{mealQuantity[orders.id] * orders.price}</p>
           </div>
         </div>
       ))}

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { FoodContext } from "./foodContext";
+import { FoodContext } from "./store/foodContext";
 import Logo from "/logo.jpg";
 
 const Header = () => {

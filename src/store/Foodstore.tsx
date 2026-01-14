@@ -13,6 +13,8 @@ export type Meal = {
   image: string;
 };
 
+type calcOrdersAmount = (Orders: number, price: number) => number;
+
 export type cartQuantities = {
   [mealId: string]: number;
 };
@@ -71,6 +73,7 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
         ...prev,
         [id]: 1,
       }));
+
       return [...orders, mealToAdd];
     });
   };
@@ -80,6 +83,9 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       ...prev,
       [id]: (prev[id] ?? 0) + 1,
     }));
+
+    console.log(order);
+    console.log(mealQuantity);
   };
 
   const DecreaseQty = (id: string) => {

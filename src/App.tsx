@@ -1,6 +1,6 @@
 import { FoodstoreProvider } from "./store/Foodstore";
 import Meal from "./components/Meals";
-import Header from "./store/Header";
+import Header from "./Header";
 import Modal from "./components/Modal";
 function App() {
   return (
