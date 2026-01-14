@@ -3,7 +3,7 @@ import { FoodContext } from "./store/foodContext";
 import Logo from "/logo.jpg";
 
 const Header = () => {
-  const { order } = useContext(FoodContext);
+  const { order, openCart } = useContext(FoodContext);
 
   return (
     <section className="my-10">
@@ -16,7 +16,7 @@ const Header = () => {
           />
           <p className="font-extrabold text-amber-200 text-3xl">Orderly</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" onClick={openCart}>
           <p className="font-extrabold text-amber-200 text-3xl">Cart</p>
           <p className="font-extrabold text-amber-200 text-3xl">
             ({order.length})

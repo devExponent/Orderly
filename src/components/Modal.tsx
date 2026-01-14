@@ -1,13 +1,33 @@
-import Cart from "./Cart";
+import { useImperativeHandle, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-const Modal = () => {
+type ModalProps = {
+  children: ReactNode;
+};
+
+const Modal = ({ children, ref }: ModalProps) => {
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        open: () => {
+          dialogRef.current?.showModal();
+        },
+        close: () => {
+          dialogRef.current?.close();
+        },
+      };
+    },
+    []
+  );
   return createPortal(
     <dialog
-      open
+      ref={dialogRef}
       className="fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg p-6 bg-white"
     >
-      <Cart />
+      {children}
     </dialog>,
     document.getElementById("modal-root")!
   );

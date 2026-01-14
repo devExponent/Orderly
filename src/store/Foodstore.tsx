@@ -1,5 +1,6 @@
 import { FoodContext } from "./foodContext";
 import { useState, useEffect, type ReactNode } from "react";
+import { useMemo, createRef } from "react";
 
 type FoodstoreProviderProps = {
   children: ReactNode;
@@ -13,10 +14,13 @@ export type Meal = {
   image: string;
 };
 
-type calcOrdersAmount = (Orders: number, price: number) => number;
-
 export type cartQuantities = {
   [mealId: string]: number;
+};
+
+export type ModalHandle = {
+  open: () => void;
+  close: () => void;
 };
 
 export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
@@ -50,18 +54,6 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     loadMeals();
   }, []);
 
-  // useEffect(() => {
-  //   setMealQuantity((prev) => {
-  //     const updated = { ...prev };
-  //     order.forEach((meal) => {
-  //       if (updated[meal.id] == null) {
-  //         updated[meal.id] = 1;
-  //       }
-  //     });
-  //     return updated;
-  //   });
-  // }, [order]);
-
   const AddMeal = (id: string) => {
     setOrder((orders) => {
       if (orders.some((order) => order.id === id)) {
@@ -83,9 +75,6 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       ...prev,
       [id]: (prev[id] ?? 0) + 1,
     }));
-
-    console.log(order);
-    console.log(mealQuantity);
   };
 
   const DecreaseQty = (id: string) => {
@@ -103,6 +92,17 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     });
   };
 
+  const totalPrice = useMemo(() => {
+    return order.reduce((sum, orders) => {
+      const qty = mealQuantity[orders.id] ?? 0;
+      return sum + orders.price * qty;
+    }, 0);
+  }, [order, mealQuantity]);
+
+  const cartModalRef = createRef<ModalHandle>();
+  const openCart = () => cartModalRef.current?.open();
+  const closeCart = () => cartModalRef.current?.close();
+
   const contextValue = {
     foodStore,
     order,
@@ -111,6 +111,10 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     mealQuantity,
     IncreaseQty,
     DecreaseQty,
+    totalPrice,
+    openCart,
+    closeCart,
+    cartModalRef,
   };
 
   return <FoodContext value={contextValue}>{children}</FoodContext>;

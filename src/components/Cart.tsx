@@ -2,8 +2,14 @@ import { useContext } from "react";
 import { FoodContext } from "../store/foodContext";
 
 const Cart = () => {
-  const { order, mealQuantity, IncreaseQty, DecreaseQty } =
-    useContext(FoodContext);
+  const {
+    order,
+    mealQuantity,
+    IncreaseQty,
+    DecreaseQty,
+    totalPrice,
+    closeCart,
+  } = useContext(FoodContext);
 
   return (
     <div>
@@ -33,12 +39,12 @@ const Cart = () => {
             >
               +
             </button>
-            <p>{mealQuantity[orders.id] * orders.price}</p>
           </div>
         </div>
       ))}
+      <p className="font-extrabold text-2xl text-right my-5">${totalPrice}</p>
       <div className="flex flex-row justify-end items-center gap-3 my-5">
-        <button>Close</button>
+        <button onClick={closeCart}>Close</button>
         <button className="bg-amber-300 p-2 rounded-lg">Go to Checkout</button>
       </div>
     </div>
