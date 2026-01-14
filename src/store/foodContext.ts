@@ -14,8 +14,8 @@ type FoodContextType = {
   totalPrice: number
   openCart: () => void
   closeCart: () => void;
-    cartModalRef: React.RefObject<ModalHandle | null>;
-
+  cartModalRef: React.RefObject<ModalHandle | null>;
+submitOrder:boolean
 };
 
 export const FoodContext = createContext<FoodContextType>({
@@ -30,5 +30,6 @@ export const FoodContext = createContext<FoodContextType>({
   openCart: () => {} ,
   closeCart: () => {},
   cartModalRef: createRef<ModalHandle | null>(),
+  submitOrder: false
 
 })
