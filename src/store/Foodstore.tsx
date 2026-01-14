@@ -4,6 +4,7 @@ import { useState, useEffect, type ReactNode } from "react";
 type FoodstoreProviderProps = {
   children: ReactNode;
 };
+
 export type Meal = {
   id: string;
   name: string;
@@ -12,10 +13,15 @@ export type Meal = {
   image: string;
 };
 
+export type cartQuantities = {
+  [mealId: string]: number;
+};
+
 export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   const [foodStore, setFoodStore] = useState<Meal[]>([]);
   const [order, setOrder] = useState<Meal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [mealQuantity, setMealQuantity] = useState<cartQuantities>({});
 
   useEffect(() => {
     const loadMeals = async () => {
@@ -42,6 +48,18 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     loadMeals();
   }, []);
 
+  // useEffect(() => {
+  //   setMealQuantity((prev) => {
+  //     const updated = { ...prev };
+  //     order.forEach((meal) => {
+  //       if (updated[meal.id] == null) {
+  //         updated[meal.id] = 1;
+  //       }
+  //     });
+  //     return updated;
+  //   });
+  // }, [order]);
+
   const AddMeal = (id: string) => {
     setOrder((orders) => {
       if (orders.some((order) => order.id === id)) {
@@ -49,7 +67,33 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       }
       const mealToAdd = foodStore.find((meal) => meal.id === id);
       if (!mealToAdd) return orders;
+      setMealQuantity((prev) => ({
+        ...prev,
+        [id]: 1,
+      }));
       return [...orders, mealToAdd];
+    });
+  };
+
+  const IncreaseQty = (id: string) => {
+    setMealQuantity((prev) => ({
+      ...prev,
+      [id]: (prev[id] ?? 0) + 1,
+    }));
+  };
+
+  const DecreaseQty = (id: string) => {
+    setMealQuantity((prev) => {
+      const currentQty = prev[id] ?? 0;
+
+      if (currentQty <= 1) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [id]: currentQty - 1,
+      };
     });
   };
 
@@ -58,6 +102,9 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     order,
     AddMeal,
     isLoading,
+    mealQuantity,
+    IncreaseQty,
+    DecreaseQty,
   };
 
   return <FoodContext value={contextValue}>{children}</FoodContext>;
