@@ -28,6 +28,7 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   const [order, setOrder] = useState<Meal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [mealQuantity, setMealQuantity] = useState<cartQuantities>({});
+  const [submitOrder, setSubmitOrder] = useState<boolean>(false);
 
   useEffect(() => {
     const loadMeals = async () => {
@@ -51,6 +52,7 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       }
       setIsLoading(false);
     };
+
     loadMeals();
   }, []);
 
@@ -92,6 +94,10 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     });
   };
 
+  const PlaceOrder = () => {
+    setSubmitOrder(true);
+  };
+
   const totalPrice = useMemo(() => {
     return order.reduce((sum, orders) => {
       const qty = mealQuantity[orders.id] ?? 0;
@@ -115,6 +121,8 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     openCart,
     closeCart,
     cartModalRef,
+    PlaceOrder,
+    submitOrder,
   };
 
   return <FoodContext value={contextValue}>{children}</FoodContext>;

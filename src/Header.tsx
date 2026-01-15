@@ -16,7 +16,10 @@ const Header = () => {
           />
           <p className="font-extrabold text-amber-200 text-3xl">Orderly</p>
         </div>
-        <div className="flex items-center gap-2" onClick={openCart}>
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={openCart}
+        >
           <p className="font-extrabold text-amber-200 text-3xl">Cart</p>
           <p className="font-extrabold text-amber-200 text-3xl">
             ({order.length})
