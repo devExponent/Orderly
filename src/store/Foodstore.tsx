@@ -95,7 +95,9 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   };
 
   const PlaceOrder = () => {
-    setSubmitOrder(true);
+    if (order.length > 0) {
+      setSubmitOrder(true);
+    }
   };
 
   const totalPrice = useMemo(() => {
