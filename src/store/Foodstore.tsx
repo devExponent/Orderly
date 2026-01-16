@@ -77,8 +77,13 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       if (!res.ok) {
         throw new Error(data?.message ?? "Order failed");
       }
-      setOrder([]);
+
       setOrderSuccessMessage(true);
+
+      setTimeout(() => {
+        setOrderSuccessMessage(false);
+        CancelOrder();
+      }, 5000);
       return data;
     } catch (err) {
       console.error("Error:", err.message);
@@ -142,6 +147,13 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   };
 
   const CancelOrder = () => {
+    setOrder([]);
+    setMealQuantity({});
+    setSubmitOrder(false);
+    closeCart();
+  };
+
+  const EscModal = () => {
     setSubmitOrder(false);
     closeCart();
   };
@@ -164,8 +176,18 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       CancelOrder,
       getOrders,
       orderSuccessMessage,
+      EscModal,
+      setOrderSuccessMessage,
     }),
-    [foodStore, order, isLoading, mealQuantity, totalPrice, submitOrder]
+    [
+      foodStore,
+      order,
+      isLoading,
+      mealQuantity,
+      totalPrice,
+      submitOrder,
+      orderSuccessMessage,
+    ]
   );
 
   return (

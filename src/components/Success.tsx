@@ -1,4 +1,12 @@
+import { useContext } from "react";
+import { FoodContext } from "../store/foodContext";
 const Success = () => {
+  const { setOrderSuccessMessage, CancelOrder } = useContext(FoodContext);
+
+  const handleOk = () => {
+    setOrderSuccessMessage(false);
+    CancelOrder();
+  };
   return (
     <div>
       <div className="flex flex-col gap-3">
@@ -10,7 +18,12 @@ const Success = () => {
         </p>
       </div>
       <div className="text-right">
-        <button className="bg-amber-300 px-5 py-2 rounded-lg my-3">Okay</button>
+        <button
+          className="bg-amber-300 px-5 py-2 rounded-lg my-3"
+          onClick={handleOk}
+        >
+          Okay
+        </button>
       </div>
     </div>
   );

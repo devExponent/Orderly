@@ -21,7 +21,10 @@ type FoodContextType = {
   submitOrder: boolean
   CancelOrder:() => void
   getOrders: (data: any) => Promise<CreateOrderResponse>;
-    orderSuccessMessage: boolean
+  orderSuccessMessage: boolean
+  EscModal: () => void
+  setOrderSuccessMessage: React.Dispatch<React.SetStateAction<boolean>>
+
 };
 
 export const FoodContext = createContext<FoodContextType>({
@@ -40,5 +43,7 @@ export const FoodContext = createContext<FoodContextType>({
   submitOrder: false,
   CancelOrder: () => {},
    getOrders: async () => ({ message: "" }),
-   orderSuccessMessage: false
+   orderSuccessMessage: false,
+   EscModal:()=> {},
+   setOrderSuccessMessage: () => {},
 })

@@ -9,7 +9,7 @@ type ModalProps = {
 
 const Modal = ({ children, ref }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const { CancelOrder } = useContext(FoodContext);
+  const { EscModal } = useContext(FoodContext);
 
   useImperativeHandle(
     ref,
@@ -29,8 +29,8 @@ const Modal = ({ children, ref }: ModalProps) => {
   return createPortal(
     <dialog
       ref={dialogRef}
-      onClose={CancelOrder}
-      onCancel={CancelOrder}
+      onClose={EscModal}
+      onCancel={EscModal}
       className="fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg p-6 bg-white"
     >
       {children}

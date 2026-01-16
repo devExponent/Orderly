@@ -52,7 +52,7 @@ const CartItems = () => {
         </button>
       </div>
       {order.length < 1 && (
-        <p className="text-red-400">Your cart is empty. Place some order</p>
+        <p className="text-red-400">Your cart is empty. Add some menu</p>
       )}
     </div>
   );
