@@ -3,53 +3,75 @@ import { FoodContext } from "../store/foodContext";
 import { useContext } from "react";
 import { useActionState } from "react";
 
-const handleOrder = (prevState, formData) => {
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const street = formData.get("street");
-  const postalCode = formData.get("postal-code");
-  const city = formData.get("city");
-
-  const errors = [];
-
-  if (!name.trim()) {
-    errors.push("Name can not be empty");
-  }
-  if (!email.includes("@")) {
-    errors.push("enter a valid email address");
-  }
-  if (!street.trim()) {
-    errors.push("Street can not be empty");
-  }
-
-  if (!postalCode.trim() && postalCode.trim().length < 4) {
-    errors.push("Enter a valid postal code");
-  }
-  if (!city.trim()) {
-    errors.push("City is empty");
-  }
-
-  if (errors.length > 0) {
-    return {
-      errors,
-      enteredValues: {
-        name,
-        email,
-        street,
-        postalCode,
-        city,
-      },
-    };
-  } else {
-    return { errors: null };
-  }
-};
-
 const Form = () => {
+  const { totalPrice, CancelOrder, order, mealQuantity, getOrders } =
+    useContext(FoodContext);
+
+  const items = order.map((meal) => ({
+    id: meal.id,
+    name: meal.name,
+    price: meal.price,
+    quantity: mealQuantity[meal.id] ?? 0,
+  }));
+
+  const handleOrder = async (prevState, formData) => {
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const street = formData.get("street");
+    const postalCode = formData.get("postal-code");
+    const city = formData.get("city");
+
+    const errors = [];
+
+    if (!name.trim()) {
+      errors.push("Name can not be empty");
+    }
+    if (!email.includes("@")) {
+      errors.push("enter a valid email address");
+    }
+    if (!street.trim()) {
+      errors.push("Street can not be empty");
+    }
+
+    if (!postalCode.trim() && postalCode.trim().length < 4) {
+      errors.push("Enter a valid postal code");
+    }
+    if (!city.trim()) {
+      errors.push("City is empty");
+    }
+
+    if (errors.length > 0) {
+      return {
+        errors,
+        enteredValues: {
+          name,
+          email,
+          street,
+          postalCode,
+          city,
+        },
+      };
+    }
+    await getOrders({
+      order: {
+        items,
+        customer: {
+          email,
+          name,
+          street,
+          "postal-code": postalCode,
+          city,
+        },
+      },
+    });
+
+    return { errors: null };
+  };
+
   const [orderSubmit, orderAction, pending] = useActionState(handleOrder, {
     errors: null,
   });
-  const { totalPrice, CancelOrder } = useContext(FoodContext);
+
   return (
     <div>
       <form action={orderAction}>

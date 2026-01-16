@@ -58,7 +58,7 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
     loadMeals();
   }, []);
 
-  const getOrders = async (ordersData) => {
+  const getOrders = async (ordersData: any) => {
     try {
       const res = await fetch(
         "http://localhost:3000/orders",
@@ -71,16 +71,16 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
           body: JSON.stringify(ordersData),
         }
       );
-
-      if (res.ok) {
-        const result = await res.json();
-        console.log("Success:", result);
-      } else {
-        console.error("Error:", res.status, res.statusText);
-        return;
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(`${res.status} ${res.statusText}`);
       }
+
+      console.log("success");
+      return data;
     } catch (err) {
       console.error("Error:", err.message);
+      throw err;
     }
   };
 

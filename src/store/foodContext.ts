@@ -3,6 +3,8 @@ import type { Meal } from "./Foodstore";
 import type { cartQuantities } from "./Foodstore";
 import {type  ModalHandle } from "./Foodstore";
 
+type CreateOrderResponse = { message: string };
+
 type FoodContextType = {
   foodStore: Meal[];
   order: Meal[];
@@ -18,7 +20,7 @@ type FoodContextType = {
   PlaceOrder: () => void
   submitOrder: boolean
   CancelOrder:() => void
-  getOrders:(data:string) => void
+    getOrders: (data: any) => Promise<CreateOrderResponse>;
 };
 
 export const FoodContext = createContext<FoodContextType>({
