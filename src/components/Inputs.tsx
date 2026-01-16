@@ -7,7 +7,7 @@ type inputProps = {
 const Input = ({ label, id, ...props }: inputProps) => {
   return (
     <div>
-      <div className="flex flex-col gap-2 my-3">
+      <div className="flex flex-col gap-2 my-3  ">
         <label htmlFor={id}>{label}</label>
         <input
           {...props}

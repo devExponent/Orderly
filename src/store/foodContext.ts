@@ -1,4 +1,4 @@
-import { createContext, createRef} from "react";
+import { createContext} from "react";
 import type { Meal } from "./Foodstore";
 import type { cartQuantities } from "./Foodstore";
 import {type  ModalHandle } from "./Foodstore";
@@ -14,9 +14,11 @@ type FoodContextType = {
   totalPrice: number
   openCart: () => void
   closeCart: () => void;
-  cartModalRef: React.RefObject<ModalHandle | null>;
+  cartModalRef: React.RefObject<ModalHandle | null> | null;
   PlaceOrder: () => void
   submitOrder: boolean
+  CancelOrder:() => void
+  getOrders:(data:string) => void
 };
 
 export const FoodContext = createContext<FoodContextType>({
@@ -30,7 +32,9 @@ export const FoodContext = createContext<FoodContextType>({
   totalPrice:0,
   openCart: () => {} ,
   closeCart: () => {},
-  cartModalRef: createRef<ModalHandle | null>(),
+   cartModalRef: null,
   PlaceOrder: () => {},
-  submitOrder: false
+  submitOrder: false,
+  CancelOrder: () => {},
+  getOrders: () => {}
 })

@@ -1,5 +1,7 @@
 import { useImperativeHandle, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { FoodContext } from "../store/foodContext";
+import { useContext } from "react";
 
 type ModalProps = {
   children: ReactNode;
@@ -7,6 +9,7 @@ type ModalProps = {
 
 const Modal = ({ children, ref }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const { CancelOrder } = useContext(FoodContext);
 
   useImperativeHandle(
     ref,
@@ -22,9 +25,12 @@ const Modal = ({ children, ref }: ModalProps) => {
     },
     []
   );
+
   return createPortal(
     <dialog
       ref={dialogRef}
+      onClose={CancelOrder}
+      onCancel={CancelOrder}
       className="fixed inset-0 m-auto w-[90%] max-w-lg rounded-lg p-6 bg-white"
     >
       {children}

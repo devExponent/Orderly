@@ -12,6 +12,7 @@ const Cart = () => {
     closeCart,
     PlaceOrder,
     submitOrder,
+    // CancelOrder
   } = useContext(FoodContext);
 
   return (

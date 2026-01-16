@@ -1,6 +1,6 @@
 import Input from "./Inputs";
 import { FoodContext } from "../store/foodContext";
-import { use } from "react";
+import { useContext } from "react";
 import { useActionState } from "react";
 
 const handleOrder = (prevState, formData) => {
@@ -49,7 +49,7 @@ const Form = () => {
   const [orderSubmit, orderAction, pending] = useActionState(handleOrder, {
     errors: null,
   });
-  const { totalPrice } = use(FoodContext);
+  const { totalPrice, CancelOrder } = useContext(FoodContext);
   return (
     <div>
       <form action={orderAction}>
@@ -92,7 +92,7 @@ const Form = () => {
         />
         <>
           {orderSubmit.errors && (
-            <ul>
+            <ul className="bg-[#3e3434] p-3 rounded-xl">
               {orderSubmit.errors.map((errors) => (
                 <li key={errors} className="text-red-500">
                   {errors}
@@ -103,7 +103,9 @@ const Form = () => {
         </>
 
         <div className="flex flex-row justify-end items-center gap-3 my-5">
-          <button type="reset">Close</button>
+          <button type="reset" onClick={CancelOrder}>
+            Close
+          </button>
           <button
             className="bg-amber-300 p-2 rounded-lg"
             type="submit"
