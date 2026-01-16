@@ -29,6 +29,8 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [mealQuantity, setMealQuantity] = useState<cartQuantities>({});
   const [submitOrder, setSubmitOrder] = useState<boolean>(false);
+  const [orderSuccessMessage, setOrderSuccessMessage] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const loadMeals = async () => {
@@ -73,10 +75,10 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       );
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(`${res.status} ${res.statusText}`);
+        throw new Error(data?.message ?? "Order failed");
       }
-
-      console.log("success");
+      setOrder([]);
+      setOrderSuccessMessage(true);
       return data;
     } catch (err) {
       console.error("Error:", err.message);
@@ -161,6 +163,7 @@ export const FoodstoreProvider = ({ children }: FoodstoreProviderProps) => {
       submitOrder,
       CancelOrder,
       getOrders,
+      orderSuccessMessage,
     }),
     [foodStore, order, isLoading, mealQuantity, totalPrice, submitOrder]
   );

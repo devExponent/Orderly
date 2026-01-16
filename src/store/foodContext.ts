@@ -20,7 +20,8 @@ type FoodContextType = {
   PlaceOrder: () => void
   submitOrder: boolean
   CancelOrder:() => void
-    getOrders: (data: any) => Promise<CreateOrderResponse>;
+  getOrders: (data: any) => Promise<CreateOrderResponse>;
+    orderSuccessMessage: boolean
 };
 
 export const FoodContext = createContext<FoodContextType>({
@@ -38,5 +39,6 @@ export const FoodContext = createContext<FoodContextType>({
   PlaceOrder: () => {},
   submitOrder: false,
   CancelOrder: () => {},
-  getOrders: () => {}
+   getOrders: async () => ({ message: "" }),
+   orderSuccessMessage: false
 })

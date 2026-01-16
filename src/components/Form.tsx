@@ -39,7 +39,9 @@ const Form = () => {
     if (!city.trim()) {
       errors.push("City is empty");
     }
-
+    if (order.length < 1) {
+      errors.push("Your cart is empty");
+    }
     if (errors.length > 0) {
       return {
         errors,
